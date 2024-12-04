@@ -59,38 +59,4 @@ public class SearchController : ControllerBase
             totalCount = result.TotalCount
         });
     }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateItem(AuctionUpdated auctionUpdated)
-    {
-        try
-        {
-            var query = await DB.Update<Item>()
-                        .MatchID(auctionUpdated.Id)
-                        .Modify(i => i.Make, auctionUpdated.Make)
-                        .Modify(i => i.Model, auctionUpdated.Model)
-                        .Modify(i => i.Color, auctionUpdated.Color)
-                        .Modify(i => i.Mileage, auctionUpdated.Mileage)
-                        .Modify(i => i.Year, auctionUpdated.Year)
-                        .ExecuteAsync();
-
-            if (query != null && query.ModifiedCount > 0)
-            {
-                return Ok("Update successful");
-            }
-
-            return BadRequest("Update in mongo failed or no changes were made");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("We have some errors: ", ex.Message);
-            throw;
-        }
-    }
-
-    // [HttpDelete("{id}")]
-    // public async Task<ActionResult> DeleteItem(int id)
-    // {
-    //     return Ok();
-    // }
 }
