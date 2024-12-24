@@ -1,0 +1,54 @@
+﻿{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:6001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  },
+  "ReverseProxy": {
+    "Routes": {
+      "auctions": {
+        "ClusterId": "auctions",
+        "Match": {
+          "Path": "/auctions/{**catch-all}"
+        },
+        "Transforms": {
+          "PathPattern": "api/auctions/{**catch-all}"
+        }
+      },
+      "search": {
+        "ClusterId": "search",
+        "Match": {
+          "Path": "/search/{**catch-all}",
+          "Metqthods": [
+            "GET"
+          ]
+        },
+        "Transforms": {
+          "PathPattern": "api/search/{**catch-all}"
+        }
+      }
+    },
+    "Clusters": {
+      "auctions": {
+        "Destinations": {
+          "auctionApi": {
+            "Address": "http://localhost:7001"
+          }
+        }
+      },
+      "search": {
+        "Destinations": {
+          "searchApi": {
+            "Address": "http://localhost:7002"
+          }
+        }
+      }
+    }
+  }
+}
