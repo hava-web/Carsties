@@ -16,10 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main className="container mx-auto px-5 pt-5">
-          {children}
-        </main>
+        <div>
+          <Navbar />
+          <main className="container mx-auto px-5 pt-5">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
