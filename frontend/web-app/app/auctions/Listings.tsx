@@ -1,24 +1,53 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import AuctionCard from './AuctionCard';
+import { Auction, PageResult } from '../types';
+import AppPagination from '../components/AppPagination';
+import { getData } from '../actions/auctionAction';
+import Filters from './Filters';
 
-async function getData() {
-    const response = await fetch('http://localhost:6001/search?pageSize=10', { next: { revalidate: 60 } });
-    console.log(JSON.stringify(response));
-
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
+export type FilterCommon = {
+    pageCount: number;
+    pageNumber: number;
+    pageSize: number;
 }
 
-const Listings = async () => {
-    const data = await getData();
+const Listings = () => {
+    const [auctions, setAuctions] = useState<Auction[]>([]);
+    const [filter, setFilter] = useState<FilterCommon>(
+        {
+            pageCount: 0,
+            pageNumber: 1,
+            pageSize: 4
+        }
+    );
+
+    useEffect(() => {
+        getData(filter.pageNumber, filter.pageSize).then((data: PageResult<Auction>) => {
+            setAuctions(data.results);
+            setFilter({
+                ...filter,
+                pageCount: data.pageCount
+            });
+        }).catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+    }, [filter.pageNumber, filter.pageSize]);
+
+    if (auctions.length === 0) return <div>Loading...</div>;
+
     return (
-        <div className='grid grid-cols-4 gap-6'>
-            {data && data.results.map((auction: any) => (
-                <AuctionCard key={auction.id} auction={auction} />
-            ))}
-        </div>
+        <>
+            <Filters filter={filter} FilterChanged={setFilter} />
+            <div className='grid grid-cols-4 gap-6'>
+                {auctions.map((auction) => (
+                    <AuctionCard key={auction.id} auction={auction} />
+                ))}
+            </div>
+            <div className="flex justify-center mt-4">
+                <AppPagination pageChanged={setFilter} filter={filter} />
+            </div>
+        </>
     )
 }
 

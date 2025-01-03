@@ -1,16 +1,17 @@
 import React from 'react'
 import CountdownTimer from './CountdownTimer'
 import CarImage from './CarImage'
+import { Auction } from '../types'
 
 export type AuctionCardProps = {
-    auction: any
+    auction: Auction
 }
 
 const AuctionCard = ({ auction }: AuctionCardProps) => {
     return (
         <a href='#' className='group'>
             <div className="relative w-full bg-gray-200 aspect-[16/10] rounded-lg overflow-hidden">
-                <CarImage imageUrl={auction.image} />
+                <CarImage imageUrl={auction.imageUrl} />
                 <div className="absolute bottom-2 left-2">
                     <CountdownTimer auctionEnd={auction.auctionEnd} />
                 </div>
