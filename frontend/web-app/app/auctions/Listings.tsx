@@ -5,6 +5,9 @@ import { Auction, PageResult } from '../types';
 import AppPagination from '../components/AppPagination';
 import { getData } from '../actions/auctionAction';
 import Filters from './Filters';
+import { useParamStore } from '../hooks/useParamStore';
+import { useShallow } from 'zustand/shallow';
+import qs from 'query-string';
 
 export type FilterCommon = {
   pageCount: number;
@@ -14,16 +17,18 @@ export type FilterCommon = {
 };
 
 const Listings = () => {
-  const [auctions, setAuctions] = useState<Auction[]>([]);
-  const [filter, setFilter] = useState<FilterCommon>({
-    pageCount: 0,
-    pageNumber: 1,
-    pageSize: 4,
-    searchTerm: '',
-  });
+  const [data, setData] = useState<PageResult<Auction>>();
+  const params = useParamStore(useShallow(state => ({
+    pageCount: state.pageCount,
+    pageNumber: state.pageNumber,
+    pageSize: state.pageSize,
+    searchTerm: state.searchTerm,
+  })));
+  const setParams = useParamStore(state => state.setParams);
+  const url = qs.stringify({ url: '', qery: params });
 
   useEffect(() => {
-    getData(filter.pageNumber, filter.pageSize)
+    getData(url)
       .then((data: PageResult<Auction>) => {
         setAuctions(data.results);
         setFilter({
