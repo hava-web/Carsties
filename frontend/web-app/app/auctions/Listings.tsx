@@ -27,32 +27,32 @@ const Listings = () => {
   const setParams = useParamStore(state => state.setParams);
   const url = qs.stringify({ url: '', qery: params });
 
+  const setPageNumber = (pageNumber: number) => {
+    setParams({ pageNumber });
+  }
+
   useEffect(() => {
     getData(url)
       .then((data: PageResult<Auction>) => {
-        setAuctions(data.results);
-        setFilter({
-          ...filter,
-          pageCount: data.pageCount,
-        });
+        setData(data);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        throw error('Error fetching data:', error);
       });
-  }, [filter.pageNumber, filter.pageSize]);
+  }, [url]);
 
-  if (auctions.length === 0) return <div>Loading...</div>;
+  if (!data) return <div>Loading...</div>;
 
   return (
     <>
-      <Filters filter={filter} FilterChanged={setFilter} />
+      <Filters />
       <div className='grid grid-cols-4 gap-6'>
-        {auctions.map((auction) => (
+        {data.results.map((auction) => (
           <AuctionCard key={auction.id} auction={auction} />
         ))}
       </div>
       <div className='flex justify-center mt-4'>
-        <AppPagination pageChanged={setFilter} filter={filter} />
+        <AppPagination setPageNumber={setPageNumber} currentPage={params.pageNumber} pageCount={data.pageCount} />
       </div>
     </>
   );
