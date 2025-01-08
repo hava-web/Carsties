@@ -4,7 +4,7 @@ type State = {
     pageCount: number;
     pageNumber: number;
     pageSize: number;
-    searchTerm: '';
+    searchTerm: string;
 };
 
 type Action = {
