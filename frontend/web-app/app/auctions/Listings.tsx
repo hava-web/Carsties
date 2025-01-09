@@ -19,13 +19,14 @@ export type FilterCommon = {
 const Listings = () => {
   const [data, setData] = useState<PageResult<Auction>>();
   const params = useParamStore(useShallow(state => ({
-    pageCount: state.pageCount,
     pageNumber: state.pageNumber,
     pageSize: state.pageSize,
     searchTerm: state.searchTerm,
+    orderBy: state.orderBy,
+    filterBy: state.filterBy,
   })));
   const setParams = useParamStore(state => state.setParams);
-  const url = qs.stringify({ url: '', qery: params });
+  const url = qs.stringifyUrl({ url: '', query: params });
 
   const setPageNumber = (pageNumber: number) => {
     setParams({ pageNumber });

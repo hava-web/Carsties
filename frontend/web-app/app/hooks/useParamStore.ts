@@ -5,11 +5,15 @@ type State = {
     pageNumber: number;
     pageSize: number;
     searchTerm: string;
+    searchValue: string;
+    orderBy: string;
+    filterBy: string;
 };
 
 type Action = {
     setParams: (params: Partial<State>) => void;
     reset: () => void;
+    setSearchValue: (value: string) => void;
 }
 
 const initialState: State = {
@@ -17,6 +21,9 @@ const initialState: State = {
     pageNumber: 1,
     pageSize: 4,
     searchTerm: '',
+    searchValue: '',
+    orderBy: 'make',
+    filterBy: 'live',
 }
 
 export const useParamStore = create<State & Action>()((set) => ({
@@ -39,5 +46,6 @@ export const useParamStore = create<State & Action>()((set) => ({
         });
     },
     reset: () => set(initialState),
+    setSearchValue: (value: string) => set({ searchValue: value })
 }))
 
