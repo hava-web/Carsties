@@ -1,10 +1,12 @@
 import React from 'react'
 import { useParamStore } from '../hooks/useParamStore';
+import Heading from './Heading';
+import { Button } from 'flowbite-react';
 
 type EmptyFilterProps = {
     title?: string;
     subTitle?: string;
-    showReset?: string;
+    showReset?: boolean;
 }
 
 const EmptyFilter = ({
@@ -14,7 +16,14 @@ const EmptyFilter = ({
 
     const reset = useParamStore(state => state.reset);
     return (
-        <div>EmptyFilter</div>
+        <div className='h-[40vh] flex flex-col gap-2 justify-center items-center shadow-lg'>
+            <Heading title={title} subTitle={subTitle} center />
+            <div className="mt-4">
+                {showReset && (
+                    <Button onClick={reset}>Remove Filters</Button>
+                )}
+            </div>
+        </div>
     )
 }
 
