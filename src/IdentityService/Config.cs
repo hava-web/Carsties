@@ -1,4 +1,4 @@
-﻿using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Models;
 
 namespace IdentityService;
 
@@ -31,10 +31,10 @@ public static class Config
             new Client {
                 ClientId = "nextApp",
                 ClientName = "nextApp",
-                ClientSecrets = new [] {new Secret("secret")},
+                ClientSecrets = new [] {new Secret("secret".Sha256())},
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                 RequirePkce = false,
-                RedirectUris = {"http://localhost:3000//api/auth/callback/id-server"},
+                RedirectUris = {"http://localhost:3000/api/auth/callback/id-server"},
                 AllowOfflineAccess = true,
                 AllowedScopes = {"openid", "profile", "auctionApp"},
                 AccessTokenLifetime = 3600*42*30,

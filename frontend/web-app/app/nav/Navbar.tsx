@@ -3,6 +3,7 @@
 import React from 'react';
 import Search from './Search';
 import Logo from './Logo';
+import LoginButton from './LoginButton';
 
 const Navbar = () => {
     return (
@@ -10,7 +11,7 @@ const Navbar = () => {
             <header className='stricky top-0 z-50 flex justify-between bg-white p-5 items-center text-gray-800 shadow-md'>
                 <Logo />
                 <Search />
-                <div className="">Login</div>
+                <LoginButton />
             </header>
         </>
     )
