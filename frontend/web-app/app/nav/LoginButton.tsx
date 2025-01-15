@@ -13,6 +13,12 @@ const LoginButton = () => {
             )}>
                 Login
             </Button>
+            {/* <Button outline onClick={() => signIn(
+                'google',
+                { redirectTo: '/' }
+            )}>
+                Login
+            </Button> */}
         </>
     )
 }

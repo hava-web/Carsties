@@ -15,17 +15,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       issuer: 'http://localhost:5001',
       authorization: { params: { scope: 'openid profile auctionApp' } },
       idToken: true,
-    } as OIDCConfig<Profile>),
+    } as OIDCConfig<Omit<Profile, 'username'>>),
     Google({
-      clientId: '',
-      clientSecret: '',
       authorization: {
         params: {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
+          scope: "openid profile email"
         },
       },
     })
   ],
+  callbacks: {
+    async jwt({ token, profile }) {
+      if (profile) {
+        token.username = profile.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      console.log({ session, token });
+      if (token) {
+        session.user.username = token.name ?? ''
+      }
+      return session;
+    }
+  }
 });
