@@ -1,6 +1,7 @@
 import NextAuth, { Profile } from 'next-auth';
 import { OIDCConfig } from 'next-auth/providers';
 import DuendeIDS6Provider from 'next-auth/providers/duende-identity-server6';
+import Facebook from 'next-auth/providers/facebook';
 import Google from 'next-auth/providers/google';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -25,6 +26,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           scope: "openid profile email"
         },
       },
+    }),
+    Facebook({
+      authorization: {
+        params: {
+          scope: 'email public_profile',
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     })
   ],
   callbacks: {
@@ -35,7 +46,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      console.log({ session, token });
       if (token) {
         session.user.username = token.name ?? ''
       }

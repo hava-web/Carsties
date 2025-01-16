@@ -13,7 +13,7 @@ const Navbar = async () => {
                 <Logo />
                 <Search />
                 {user ? (
-                    <UserAction />
+                    <UserAction user={user} />
                 ) : (
                     <LoginButton />
                 )

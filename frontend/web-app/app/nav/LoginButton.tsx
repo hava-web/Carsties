@@ -19,6 +19,13 @@ const LoginButton = () => {
             )}>
                 Login
             </Button> */}
+            {/* <Button outline onClick={() => signIn(
+                'facebook',
+                { callbackUrl: '/' },
+                { prompt: 'login' }
+            )}>
+                Login
+            </Button> */}
         </>
     )
 }
