@@ -39,13 +39,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })
   ],
   callbacks: {
-    async jwt({ token, profile }) {
+    authorized: async ({ auth }) => {
+      console.log('not in');
+      return !!auth
+    },
+    jwt: async ({ token, profile }) => {
       if (profile) {
         token.username = profile.username;
       }
       return token;
     },
-    async session({ session, token }) {
+    session: async ({ session, token }) => {
       if (token) {
         session.user.username = token.name ?? ''
       }
