@@ -20,10 +20,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({
       authorization: {
         params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-          scope: "openid profile email"
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+          scope: 'openid profile email',
         },
       },
     }),
@@ -36,12 +36,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           response_type: 'code',
         },
       },
-    })
+    }),
   ],
   callbacks: {
     authorized: async ({ auth }) => {
       console.log('not in');
-      return !!auth
+      return !!auth;
     },
     jwt: async ({ token, profile }) => {
       if (profile) {
@@ -51,9 +51,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session: async ({ session, token }) => {
       if (token) {
-        session.user.username = token.name ?? ''
+        session.user.username = token.name ?? '';
       }
       return session;
-    }
-  }
+    },
+  },
 });
