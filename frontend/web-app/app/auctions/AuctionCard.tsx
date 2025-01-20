@@ -2,6 +2,7 @@ import React from 'react'
 import CountdownTimer from './CountdownTimer'
 import CarImage from './CarImage'
 import { Auction } from '../types'
+import Link from 'next/link'
 
 export type AuctionCardProps = {
     auction: Auction
@@ -9,7 +10,7 @@ export type AuctionCardProps = {
 
 const AuctionCard = ({ auction }: AuctionCardProps) => {
     return (
-        <a href='#' className='group'>
+        <Link href={`/auctions/details/${auction.id}`} className='group'>
             <div className="relative w-full bg-gray-200 aspect-[16/10] rounded-lg overflow-hidden">
                 <CarImage imageUrl={auction.imageUrl} />
                 <div className="absolute bottom-2 left-2">
@@ -20,7 +21,7 @@ const AuctionCard = ({ auction }: AuctionCardProps) => {
                 <h3 className='tetx-gray-700'>{auction.make} {auction.model}</h3>
                 <p className='font-semibold text-sm'>{auction.year}</p>
             </div>
-        </a>
+        </Link>
     )
 }
 

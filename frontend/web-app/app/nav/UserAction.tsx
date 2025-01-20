@@ -31,7 +31,7 @@ const UserAction = ({ user }: UserActionProps) => {
                     </Link>
                 </Dropdown.Item>
                 <Dropdown.Item icon={AiFillCar}>
-                    <Link href={`/`}>
+                    <Link href={`/auctions/create`}>
                         Sell my car
                     </Link>
                 </Dropdown.Item>

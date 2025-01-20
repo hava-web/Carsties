@@ -1,10 +1,11 @@
+'use client'
 import React, { useState } from 'react'
 import { updateAuctionTest } from '../actions/auctionAction';
 import { Button } from 'flowbite-react';
 
 const AuthTest = () => {
     const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<any>();
+    const [result, setResult] = useState<string | object | undefined>();
 
     const doUpdate = () => {
         setResult(undefined);
@@ -12,7 +13,7 @@ const AuthTest = () => {
         updateAuctionTest()
             .then(res => setResult(res))
             .catch((error) => {
-                console.log(error);
+                setResult(error)
             })
             .finally(() => setLoading(false))
     }

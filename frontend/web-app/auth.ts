@@ -43,7 +43,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       console.log('not in');
       return !!auth;
     },
-    jwt: async ({ token, profile }) => {
+    jwt: async ({ token, profile, account }) => {
+      if (account && account.access_token) {
+        token.accessToken = account.access_token
+      }
       if (profile) {
         token.username = profile.username;
       }
@@ -52,6 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session: async ({ session, token }) => {
       if (token) {
         session.user.username = token.name ?? '';
+        session.accessToken = token.accessToken as string
       }
       return session;
     },
