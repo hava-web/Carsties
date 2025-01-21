@@ -9,6 +9,7 @@
             "type": "docker",
             "request": "attach",
             "platform": "netCore",
+            "requireExactSource": false,
             "sourceFileMap": {
                 "/app": "${workspaceFolder}"
             }
