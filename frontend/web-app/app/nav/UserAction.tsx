@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 import { AiFillCar, AiFillTrophy, AiOutlineLogout } from 'react-icons/ai'
 import { HiCog, HiUser } from 'react-icons/hi2'
-import { useParamStore } from '../hooks/useParamStore'
+import { useParamStore } from '../../hooks/useParamStore'
 
 type UserActionProps = {
     user: User

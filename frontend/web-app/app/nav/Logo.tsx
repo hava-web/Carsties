@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
 import { AiOutlineCar } from 'react-icons/ai';
-import { useParamStore } from '../hooks/useParamStore';
+import { useParamStore } from '../../hooks/useParamStore';
 import { usePathname, useRouter } from 'next/navigation';
 const Logo = () => {
     const router = useRouter();

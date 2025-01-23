@@ -5,7 +5,7 @@ import { Auction, PageResult } from '../types';
 import AppPagination from '../components/AppPagination';
 import { getData } from '../actions/auctionAction';
 import Filters from './Filters';
-import { useParamStore } from '../hooks/useParamStore';
+import { useParamStore } from '../../hooks/useParamStore';
 import { useShallow } from 'zustand/shallow';
 import qs from 'query-string';
 import EmptyFilter from '../components/EmptyFilter';

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { useParamStore } from '../hooks/useParamStore';
+import { useParamStore } from '../../hooks/useParamStore';
 
 const Search = () => {
     const setParams = useParamStore(state => state.setParams);

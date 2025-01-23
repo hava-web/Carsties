@@ -1,0 +1,1 @@
+export const DATETIME_FULL = 'dd MMM h:mm a'
