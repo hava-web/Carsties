@@ -8,6 +8,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
   },
+  debug: true,
   providers: [
     DuendeIDS6Provider({
       id: 'id-server',
@@ -15,6 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: 'secret',
       issuer: 'http://localhost:5001',
       authorization: { params: { scope: 'openid profile auctionApp' } },
+      checks: ['pkce'], 
       idToken: true,
     } as OIDCConfig<Omit<Profile, 'username'>>),
     Google({
@@ -44,7 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     jwt: async ({ token, profile, account }) => {
       if (account && account.access_token) {
-        token.accessToken = account.access_token
+        token.accessToken = account.access_token;
       }
       if (profile) {
         token.username = profile.username;
@@ -54,7 +56,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session: async ({ session, token }) => {
       if (token) {
         session.user.username = token.username as string;
-        session.accessToken = token.accessToken as string
+        session.accessToken = token.accessToken as string;
       }
       return session;
     },

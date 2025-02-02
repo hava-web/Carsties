@@ -33,7 +33,7 @@ public static class Config
                 ClientName = "nextApp",
                 ClientSecrets = new [] {new Secret("secret".Sha256())},
                 AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
-                RequirePkce = false,
+                RequirePkce = true,
                 RedirectUris = {"http://localhost:3000/api/auth/callback/id-server"},
                 AllowOfflineAccess = true,
                 AllowedScopes = {"openid", "profile", "auctionApp"},
