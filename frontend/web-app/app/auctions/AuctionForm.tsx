@@ -5,7 +5,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import Input from '../components/Input';
 import DateInput from '../components/DateInput';
 import { DATETIME_FULL } from '../constants/datetime';
-import { createAuction } from '../actions/auctionAction';
+import { createAuction, updateAuction } from '../actions/auctionAction';
 import { usePathname, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { Auction } from '../types';
@@ -30,11 +30,21 @@ const AuctionForm = ({ auction }: AuctionFormProps) => {
   const onSubmit = async (data: FieldValues) => {
     try {
       let id = '';
-      const res = await createAuction(data);
+      let res;
+      if (pathname === '/auctions/create') {
+        res = await createAuction(data);
+        id = res.id;
+      } else {
+        if (auction) {
+          res = await updateAuction(data, auction.id);
+          id = auction.id;
+        }
+      }
+
       if (res.error) {
         throw res.error;
       }
-      router.push(`/auctions/details/${res.id}`);
+      router.push(`/auctions/details/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.status + ' ' + error.message);
@@ -65,23 +75,27 @@ const AuctionForm = ({ auction }: AuctionFormProps) => {
             rules={{ required: 'Mileage is required' }}
           />
         </div>
-        <Input label='Image URl' name='imageUrl' control={control} rules={{ required: 'Image URL is required' }} />
-        <div className='grid grid-cols-2 gap-3'>
-          <Input
-            label='Reserve Price'
-            name='reserve'
-            control={control}
-            rules={{ required: 'Reserve price is required' }}
-          />
-          <DateInput
-            label='Auction end date/time'
-            name='auctionEnd'
-            dateFormat={DATETIME_FULL}
-            showTimeSelect
-            control={control}
-            rules={{ required: 'Auction end date is required' }}
-          />
-        </div>
+        {pathname === '/auctions/create' && (
+          <>
+            <Input label='Image URl' name='imageUrl' control={control} rules={{ required: 'Image URL is required' }} />
+            <div className='grid grid-cols-2 gap-3'>
+              <Input
+                label='Reserve Price'
+                name='reserve'
+                control={control}
+                rules={{ required: 'Reserve price is required' }}
+              />
+              <DateInput
+                label='Auction end date/time'
+                name='auctionEnd'
+                dateFormat={DATETIME_FULL}
+                showTimeSelect
+                control={control}
+                rules={{ required: 'Auction end date is required' }}
+              />
+            </div>
+          </>
+        )}
 
         <div className='flex justify-between'>
           <Button outline color='gray'>
