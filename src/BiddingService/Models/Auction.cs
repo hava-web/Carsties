@@ -10,7 +10,7 @@ public class Auction : Entity
 
     public int ReservePrice { get; set; }
 
-    public int Finished { get; set; }
+    public bool Finished { get; set; }
 
 
 }

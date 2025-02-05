@@ -2,7 +2,7 @@ using System;
 
 namespace Contracts;
 
-public class BidPlaced
+public class BidPlace
 {
     public string Id { get; set; }
 
