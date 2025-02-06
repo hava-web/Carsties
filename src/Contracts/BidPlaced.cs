@@ -1,8 +1,6 @@
-using System;
-
 namespace Contracts;
 
-public class BidPlace
+public class BidPlaced
 {
     public string Id { get; set; }
 
