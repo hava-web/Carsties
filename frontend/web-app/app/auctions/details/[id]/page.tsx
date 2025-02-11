@@ -7,11 +7,14 @@ import DetailedSpecs from './DetailedSpecs';
 import getCurrentUser from '@/app/actions/authAction';
 import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
+import BidList from './BidList';
 
 const Details = async ({ params }: { params: { id: string } }) => {
   const { id } = await params;
   const data = await getDetailViewData(id);
   const user = await getCurrentUser();
+
+
   return (
     <>
       <div className='flex justify-between'>
@@ -33,9 +36,7 @@ const Details = async ({ params }: { params: { id: string } }) => {
         <div className='w-full bg-gray-200 relative aspect-[4/3] rounded-lg overflow-hidden'>
           <CarImage imageUrl={data.imageUrl} />
         </div>
-        <div className='border-2 rounded-lg p-2 bg-gray-100'>
-          <Heading title='Bids' />
-        </div>
+        <BidList user={user} auction={data} />
       </div>
 
       <div className='mt-3 grid grid-cols-1 rounded-lg'>

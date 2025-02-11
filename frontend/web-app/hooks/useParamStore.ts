@@ -21,7 +21,7 @@ type Action = {
 const initialState: State = {
     pageCount: 0,
     pageNumber: 1,
-    pageSize: 4,
+    pageSize: 12,
     searchTerm: '',
     searchValue: '',
     orderBy: 'make',
