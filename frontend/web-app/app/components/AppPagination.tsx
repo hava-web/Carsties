@@ -10,14 +10,17 @@ type AppPaginationProps = {
 
 const AppPagination = ({ currentPage, pageCount, setPageNumber }: AppPaginationProps) => {
     return (
-        <Pagination
-            currentPage={currentPage}
-            onPageChange={page => setPageNumber(page)}
-            totalPages={pageCount}
-            layout='pagination'
-            showIcons={true}
-            className='text-blue-500 mb-5'
-        />
+        <>
+            <Pagination
+                currentPage={currentPage}
+                onPageChange={page => setPageNumber(page)}
+                totalPages={pageCount}
+                layout='pagination'
+                showIcons={true}
+                className='text-blue-500 mb-5'
+            />
+
+        </>
     )
 }
 

@@ -19,16 +19,14 @@ const AuthTest = () => {
     }
 
     return (
-        <>
-            <div className="flex items-center gap-4">
-                <Button outline isProcessing={loading} onClick={doUpdate}>
-                    Test auth
-                </Button>
-                <div className="">
-                    {JSON.stringify(result, null, 2)}
-                </div>
+        <div className="flex items-center gap-4">
+            <Button outline isProcessing={loading} onClick={doUpdate}>
+                Test auth
+            </Button>
+            <div className="">
+                {JSON.stringify(result, null, 2)}
             </div>
-        </>
+        </div>
     )
 }
 
