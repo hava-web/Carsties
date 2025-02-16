@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from './nav/Navbar';
 import ToasterProvider from './providers/ToasterProvider';
+import SignalIRProvider from './providers/SignalIRProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,7 +19,9 @@ export default function RootLayout({
       <body>
         <ToasterProvider />
         <Navbar />
-        <main className='container mx-auto px-5 pt-5'>{children}</main>
+        <main className='container mx-auto px-5 pt-5'>
+          <SignalIRProvider>{children}</SignalIRProvider>
+        </main>
       </body>
     </html>
   );
