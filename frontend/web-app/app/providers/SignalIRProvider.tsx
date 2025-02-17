@@ -22,31 +22,41 @@ const SignalIRProvider = ({ children, user }: SignalIRProviderProps) => {
   const addBid = useBidStore((state) => state.addBid);
   const params = useParams<{ id: string }>();
 
-  const handleAuctionCreated = useCallback((auction: Auction) => {
-    if (user?.username !== auction.seller) {
-      return toast(<AuctionCreatedToast auction={auction} />, {
-        duration: 10000
-      })
-    }
-  }, [user?.username])
+  const handleAuctionCreated = useCallback(
+    (auction: Auction) => {
+      if (user?.username !== auction.seller) {
+        return toast(<AuctionCreatedToast auction={auction} />, {
+          duration: 10000,
+        });
+      }
+    },
+    [user?.username],
+  );
 
   const handleAuctionFinished = useCallback((finishedAuction: AuctionFinished) => {
     const auction = getDetailViewData(finishedAuction.auctionId);
-    return toast.promise(auction, {
-      loading: 'Loading',
-      success: (auction: Auction) => <AuctionFinishedToast auction={auction} finishedAuction={finishedAuction} />
-    })
-  }, [])
+    return (
+      toast.promise(auction, {
+        loading: 'Loading',
+        success: (auction: Auction) => <AuctionFinishedToast auction={auction} finishedAuction={finishedAuction} />,
+        error: () => 'Auction finished',
+      }),
+      { success: { duration: 10000, icon: null } }
+    );
+  }, []);
 
-  const handleBidPlace = useCallback((bid: Bid) => {
-    if (bid.bidStatus.includes('Accepted')) {
-      setCurrentPrice(bid.auctionId, bid.amount);
-    }
+  const handleBidPlace = useCallback(
+    (bid: Bid) => {
+      if (bid.bidStatus.includes('Accepted')) {
+        setCurrentPrice(bid.auctionId, bid.amount);
+      }
 
-    if (params.id === bid.auctionId) {
-      addBid(bid);
-    }
-  }, [setCurrentPrice, addBid, params.id])
+      if (params.id === bid.auctionId) {
+        addBid(bid);
+      }
+    },
+    [setCurrentPrice, addBid, params.id],
+  );
 
   useEffect(() => {
     if (!connection.current) {
@@ -59,14 +69,16 @@ const SignalIRProvider = ({ children, user }: SignalIRProviderProps) => {
         .then(() => 'Connected to notification hub')
         .catch((err) => console.log(err));
       connection.current.on('BidPlaced', handleBidPlace);
-      connection.current.on('AuctionCreated', handleAuctionCreated)
+      connection.current.on('AuctionCreated', handleAuctionCreated);
+      connection.current.on('AuctionFinished', handleAuctionFinished);
 
       return () => {
         connection.current?.off('BidPlaced', handleBidPlace);
         connection.current?.off('AuctionCreated', handleAuctionCreated);
-      }
+        connection.current?.off('AuctionFinished', handleAuctionFinished);
+      };
     }
-  }, [handleBidPlace, handleAuctionCreated]);
+  }, [handleBidPlace, handleAuctionCreated, handleAuctionFinished]);
 
   return children;
 };
