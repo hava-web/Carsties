@@ -39,8 +39,6 @@ const SignalIRProvider = ({ children, user }: SignalIRProviderProps) => {
   }, [])
 
   const handleBidPlace = useCallback((bid: Bid) => {
-    console.log(bid);
-
     if (bid.bidStatus.includes('Accepted')) {
       setCurrentPrice(bid.auctionId, bid.amount);
     }
