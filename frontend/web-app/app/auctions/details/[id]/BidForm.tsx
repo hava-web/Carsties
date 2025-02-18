@@ -12,12 +12,16 @@ type BidFormProps = {
 }
 
 const BidForm = ({ auctionId, highBid }: BidFormProps) => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const addBid = useBidStore((state) => state.addBid);
     const onSubmit = async (
         data: FieldValues,
         event: React.FormEvent<HTMLFormElement>
     ) => {
+        if (data.amount <= highBid) {
+            reset();
+            return toast.error('Bid must be at least $' + numberWithCommas(highBid + 1));
+        }
         event.preventDefault();
         await placeBidForAuction(auctionId, +data.amount)
             .then((bid) => {

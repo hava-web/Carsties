@@ -1,7 +1,7 @@
 'use server';
 import { FieldValues } from 'react-hook-form';
 import { Auction, Bid, PageResult } from '../types';
-import { fetchWrapper } from '@/libs/fetchWrapper';
+import { fetchWrapper } from '@/app/auctions/libs/fetchWrapper';
 import { revalidatePath } from 'next/cache';
 
 export async function getData(query: string): Promise<PageResult<Auction>> {

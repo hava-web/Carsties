@@ -16,13 +16,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
+  const notifyUrl = process.env.NOTIFY_URL;
   return (
     <html lang='en'>
       <body>
         <ToasterProvider />
         <Navbar />
         <main className='container mx-auto px-5 pt-5'>
-          <SignalIRProvider user={user}>{children}</SignalIRProvider>
+          <SignalIRProvider user={user} notifyUrl={notifyUrl!}>{children} no</SignalIRProvider>
         </main>
       </body>
     </html>

@@ -1,8 +1,11 @@
 import EmptyFilter from '@/app/components/EmptyFilter';
 import React from 'react';
 
-const SignIn = ({ searchParams }: { searchParams: { callbackUrl: string } }) => {
-  const callbackUrl = searchParams.callbackUrl ?? '';
+type SignInProps = Promise<{ callbackUrl: string }>
+
+const SignIn = async (searchParams: SignInProps) => {
+  const params = await searchParams
+  const callbackUrl = params.callbackUrl;
   return (
     <>
       <EmptyFilter

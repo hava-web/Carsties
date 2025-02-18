@@ -14,9 +14,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       id: 'id-server',
       clientId: 'nextApp',
       clientSecret: 'secret',
-      issuer: 'http://localhost:5001',
+      issuer: process.env.ID_URL,
       authorization: { params: { scope: 'openid profile auctionApp' } },
-      checks: ['pkce'], 
+      checks: ['pkce'],
       idToken: true,
     } as OIDCConfig<Omit<Profile, 'username'>>),
     Google({
