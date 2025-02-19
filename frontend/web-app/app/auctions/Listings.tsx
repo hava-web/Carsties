@@ -52,7 +52,7 @@ const Listings = () => {
       .catch((error) => {
         throw error('Error fetching data:', error);
       });
-  }, [url]);
+  }, [setData, url]);
 
   if (loading) return <div>Loading...</div>;
 

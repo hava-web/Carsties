@@ -9,8 +9,9 @@ import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 import BidList from './BidList';
 
-const Details = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
+const Details = async (props: { params: Promise<{ id: string }> }) => {
+  const detailsParams = await props.params;
+  const id = detailsParams.id;
   const data = await getDetailViewData(id);
   const user = await getCurrentUser();
 

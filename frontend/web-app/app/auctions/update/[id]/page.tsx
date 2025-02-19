@@ -3,8 +3,9 @@ import React from 'react';
 import AuctionForm from '../../AuctionForm';
 import { getDetailViewData } from '@/app/actions/auctionAction';
 
-const Update = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
+const Update = async (props: { params: Promise<{ id: string }> }) => {
+  const updateParmas = await props.params;
+  const id = updateParmas.id;
   const data = await getDetailViewData(id);
   return (
     <>

@@ -57,7 +57,7 @@ const AuctionForm = ({ auction }: AuctionFormProps) => {
       reset({ make, model, color, mileage, year });
     }
     setFocus('make');
-  }, [setFocus]);
+  }, [auction, reset, setFocus]);
 
   return (
     <>
@@ -81,7 +81,7 @@ const AuctionForm = ({ auction }: AuctionFormProps) => {
             <div className='grid grid-cols-2 gap-3'>
               <Input
                 label='Reserve Price'
-                name='reserve'
+                name='reservePrice'
                 control={control}
                 rules={{ required: 'Reserve price is required' }}
               />
