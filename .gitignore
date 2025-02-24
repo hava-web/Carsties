@@ -482,3 +482,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Cerfiticate files
+*.local.key
+*.local.crt
+devcerts/
