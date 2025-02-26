@@ -16,6 +16,7 @@ namespace IdentityService.Pages.Account.Register
         public IndexModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
+            Input = new RegisterViewModel();
         }
 
 
@@ -48,12 +49,12 @@ namespace IdentityService.Pages.Account.Register
                     EmailConfirmed = true
                 };
 
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, Input.Password ?? throw new ArgumentNullException(nameof(Input.Password)));
 
                 if (result.Succeeded)
                 {
                     await _userManager.AddClaimsAsync(user, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, Input.FullName)
+                        new Claim(JwtClaimTypes.Name, Input.FullName ?? throw new ArgumentNullException(nameof(Input.FullName)))
                     });
 
                     RegisterSuccess = true;
