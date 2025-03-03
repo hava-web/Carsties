@@ -1,10 +1,12 @@
 using AuctionService.Data;
+using AuctionService.IntegrationTests.Utils;
 using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
+using WebMotions.Fake.Authentication.JwtBearer;
 
 namespace AuctionService.IntegrationTests.Fixtures;
 
@@ -18,10 +20,11 @@ public class CustomWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetim
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+
         builder.ConfigureServices(services =>
         {
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<AuctionDbContext>));
-            if (descriptor != null) services.Remove(descriptor);
+            services.RemoveDbContext<AuctionDbContext>();
+
             services.AddDbContext<AuctionDbContext>(options =>
             {
                 options.UseNpgsql(_postgreSqlContainer.GetConnectionString());
@@ -29,12 +32,14 @@ public class CustomWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetim
 
             services.AddMassTransitTestHarness();
 
-            var sp = services.BuildServiceProvider();
+            services.EnsureCreated<AuctionDbContext>();
 
-            using var scope = sp.CreateScope();
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<AuctionDbContext>();
-            db.Database.Migrate();
+            services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme)
+                    .AddFakeJwtBearer(opt =>
+                    {
+                        opt.BearerValueType = FakeJwtBearerBearerValueType.Jwt;
+                    });
+
         });
     }
 
