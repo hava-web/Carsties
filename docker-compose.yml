@@ -116,7 +116,7 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
-  web-app: 
+  web-app:
     image: trycatchlearn/web-app
     build:
       context: .
